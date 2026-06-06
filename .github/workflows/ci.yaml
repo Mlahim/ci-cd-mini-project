@@ -10,6 +10,7 @@ jobs:
     steps:
       - name: Clone repository
         uses: actions/checkout@v6
+      - name: build image
         run: docker image build . -t mlahim/calculator:v01
       - name: check images 
         run: docker image ls
