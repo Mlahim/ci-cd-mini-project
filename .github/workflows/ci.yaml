@@ -1,0 +1,28 @@
+name: pr_wf
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  pr_job:
+    runs-on: ubuntu-atest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v6
+      - name: lint html
+        run: npx htmlhint **/*.html
+      - name: lint css
+        run: npx stylelint **/*.css
+      - name: build image
+        run: docker image build . -t mlahim/calculator:v01
+      - name: check images 
+        run: docker image ls
+      - name: login to dockerhub
+        uses: docker/login-action@v4
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: push to docker hub
+        run: docker image push mlahim/calculator:v01
+  
