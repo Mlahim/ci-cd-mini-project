@@ -1,0 +1,15 @@
+name: push_wf
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  cd_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy on render
+        run: curl -X POST ${{secrets.RENDER_DEPLOY_HOOK}}
+    
+
+    
